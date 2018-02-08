@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.artwellhk.alertsystem.web.alert.AlertBrowse"
+        messagesPack="com.artwellhk.alertsystem.web.alert">
+   <timers>
+      <timer delay="60000" autostart="true" repeating="true" onTimer="refreshData"/>
+  </timers> 
+    <dsContext>
+        <collectionDatasource id="alertsDs"
+                              allowCommit="false"
+                              class="com.artwellhk.alertsystem.entity.Alert"
+                              datasourceClass="com.artwellhk.alertsystem.web.myDatasource.AlertListDatasource"/>
+        
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="alertsTable"
+            spacing="true">
+       
+        <table id="alertsTable"
+               width="100%">
+            <actions>
+                <action id="setSnooze"
+                        invoke="setSnooze"
+                        trackSelection="true"/>
+            </actions>
+            <columns>
+                <column id="sampleOrder.styleNumber"
+                        caption="版单号"/>
+                <column id="sampleOrder.styleNo"
+                        caption="款号"/>
+                <column id="alertType.fromProcessInfo"
+                        caption="当前工序"/>
+                <column id="fromTimestamp"
+                        caption="完成时间">
+                    <formatter class="com.haulmont.cuba.gui.components.formatters.DateFormatter"
+                               format="yyyy-MM-dd HH:mm:ss"/>
+                </column>
+                <column id="employeeName"
+                        caption="负责人"/>
+                <column id="alertType.toProcessInfo"
+                        caption="下一工序"/>
+                <column id="lastTimestamp"
+                        caption="预计完成时间">
+                    <formatter class="com.haulmont.cuba.gui.components.formatters.DateFormatter"
+                               format="yyyy-MM-dd HH:mm:ss"/>
+                </column>
+                <column id="timeDifference"
+                        caption="超出时间"/>
+            </columns>
+            <rows datasource="alertsDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="editStatusButton"
+                        action="alertsTable.setSnooze"
+                        caption="设置睡眠"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="com.artwellhk.alertsystem.web.alertsnooze.AlertSnoozeEdit"
+        datasource="alertSnoozeDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.artwellhk.alertsystem.web.alertsnooze">
+    <dsContext>
+        <datasource id="alertSnoozeDs"
+                    class="com.artwellhk.alertsystem.entity.AlertSnooze"
+                    view="_local"/>
+    </dsContext>
+    <dialogMode forceDialog="true"
+                height="AUTO"
+                width="600"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="alertSnoozeDs">
+            <column width="250px">
+                <field caption="styleId"
+                       editable="false"
+                       property="sampleOrderId"/>
+                <field caption="睡眠时间"
+                       property="duration"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

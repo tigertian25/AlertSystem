@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
+    <include file="com/artwellhk/alertsystem/screens.xml"/>
+    <screen id="alertsystem$AlertType.browse"
+            template="com/artwellhk/alertsystem/web/alerttype/alert-type-browse.xml"/>
+    <screen id="alertsystem$Alert.browse"
+            template="com/artwellhk/alertsystem/web/alert/alert-browse.xml"/>
+    <screen id="alertsystem$Process.browse"
+            template="com/artwellhk/alertsystem/web/process/process-browse.xml"/>
+    <screen id="alertsystem$AlertSnooze.browse"
+            template="com/artwellhk/alertsystem/web/alertsnooze/alert-snooze-browse.xml"/>
+    <screen id="alertsystem$AlertSnooze.edit"
+            template="com/artwellhk/alertsystem/web/alertsnooze/alert-snooze-edit.xml"/>
+    <screen id="loginWindow"
+            template="com/artwellhk/alertsystem/web/login/ext-loginWindow.xml"/>
+</screen-config>

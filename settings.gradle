@@ -1,0 +1,6 @@
+rootProject.name = 'AlertSystem'
+include(':alertSystem-global', ':alertSystem-core', ':alertSystem-gui', ':alertSystem-web')
+project(':alertSystem-global').projectDir = new File(settingsDir, 'modules/global')
+project(':alertSystem-core').projectDir = new File(settingsDir, 'modules/core')
+project(':alertSystem-gui').projectDir = new File(settingsDir, 'modules/gui')
+project(':alertSystem-web').projectDir = new File(settingsDir, 'modules/web')

@@ -1,0 +1,34 @@
+<Context>
+    <!-- Database connection -->
+    <!-- Switch off session serialization -->
+    <Manager pathname=""/>
+    <!--Data store 'ERPDB' connection-->
+    <Resource driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+              maxIdle="2"
+              maxTotal="20"
+              maxWaitMillis="5000"
+              name="jdbc/ERPDB"
+              password="DOsqQjZ05h0yjRtI1YaI"
+              type="javax.sql.DataSource"
+              url="jdbc:sqlserver://erp.artwell-hk.com;databaseName=ERPDB"
+              username="sample_track"/>
+    <!--Data store 'ERPDB' connection-->
+    <Resource driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+              maxIdle="2"
+              maxTotal="20"
+              maxWaitMillis="5000"
+              name="jdbc/CubaDS"
+              password="age5minnow"
+              type="javax.sql.DataSource"
+              url="jdbc:sqlserver://erp.artwell-hk.com;databaseName=ALERTSYSTEM"
+              username="tiger"/>
+    <!--<Resource driverClassName="org.hsqldb.jdbc.JDBCDriver"
+          maxIdle="2"
+          maxTotal="20"
+          maxWaitMillis="5000"
+          name="jdbc/CubaDS"
+          password="tiger123456"
+          type="javax.sql.DataSource"
+          url="jdbc:hsqldb:hsql://localhost/alertsystem"
+          username="sa"/>-->
+</Context>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.artwellhk.alertsystem.web.login.ExtAppLoginWindow"
+        extends="/com/haulmont/cuba/web/app/loginwindow/loginwindow.xml"
+        messagesPack="com.artwellhk.alertsystem.web.login">
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <vbox id="loginWrapper">
+            <vbox id="loginMainBox">
+                <grid id="loginFormLayout">
+                    <rows>
+                        <row id="submitRow">
+                            <button id="loginButton"
+                                    caption="msg://login.submit"/>
+                        </row>
+                    </rows>
+                </grid>
+            </vbox>
+        </vbox>
+    </layout>
+</window>

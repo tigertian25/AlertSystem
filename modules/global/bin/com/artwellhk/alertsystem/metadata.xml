@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<metadata xmlns="http://schemas.haulmont.com/cuba/metadata.xsd">
+    <metadata-model namespace="alertsystem"
+                    root-package="com.artwellhk.alertsystem">
+        <class>com.artwellhk.alertsystem.entity.Alert</class>
+        <class>com.artwellhk.alertsystem.entity.SampleOrder</class>
+    </metadata-model>
+</metadata>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans                 http://www.springframework.org/schema/beans/spring-beans-4.3.xsd                          http://www.springframework.org/schema/context                                    http://www.springframework.org/schema/context/spring-context-4.3.xsd"
+       xmlns:context="http://www.springframework.org/schema/context">
+    <!-- Annotation-based beans -->
+    <context:component-scan base-package="com.artwellhk.alertsystem"/>
+    <!-- mybatis -->
+    <!-- alertDBMybatis -->
+    <bean id="sqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource"
+                  ref="cubaDataSource"/>
+        <property name="configLocation"
+                  value="cuba-mybatis.xml"/>
+        <property name="mapperLocations"
+                  value="classpath:com/artwellhk/alertsystem/mybatis/*.xml"/>
+    </bean>
+    <bean id="sqlSession"
+          class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0"
+                         ref="sqlSessionFactory"/>
+    </bean>
+    <!-- ERPDBMybatis -->
+    <bean id="sqlSessionFactory_ERPDB"
+          class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource"
+                  ref="cubaDataSource_ERPDB"/>
+        <property name="configLocation"
+                  value="cuba-mybatis.xml"/>
+        <property name="mapperLocations"
+                  value="classpath:com/artwellhk/alertsystem/mybatis/*.xml"/>
+    </bean>
+    <bean id="sqlSession_ERPDB"
+          class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0"
+                         ref="sqlSessionFactory_ERPDB"/>
+    </bean>
+    <!-- mybatis end -->
+    <bean id="cubaDataSource_ERPDB"
+          class="com.haulmont.cuba.core.sys.CubaJndiObjectFactoryBean">
+        <property name="jndiNameAppProperty"
+                  value="cuba.dataSourceJndiName_ERPDB"/>
+        <property name="resourceRef"
+                  value="true"/>
+    </bean>
+    <bean id="entityManagerFactory_ERPDB"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+          lazy-init="false">
+        <property name="persistenceXmlLocation"
+                  value="file:${cuba.dataDir}/ERPDB-persistence.xml"/>
+        <property name="dataSource"
+                  ref="cubaDataSource_ERPDB"/>
+        <property name="jpaVendorAdapter"
+                  ref="jpaVendorAdapter"/>
+    </bean>
+    <bean id="transactionManager_ERPDB"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory"
+                  ref="entityManagerFactory_ERPDB"/>
+        <property name="dataSource"
+                  ref="cubaDataSource_ERPDB"/>
+        <qualifier type="org.springframework.beans.factory.annotation.Qualifier"
+                   value="ERPDB"/>
+    </bean>
+</beans>

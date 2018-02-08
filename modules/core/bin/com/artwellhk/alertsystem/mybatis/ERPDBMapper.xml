@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ERPDBMapper">
+	
+	<resultMap type="com.artwellhk.alertsystem.entity.Process" id="ProcessMap">
+		<id column="ID" property="id"/>
+		<result column="NAME" property="name"/>
+		<result column="ZT_WORKING_ID" property="zt_working_id"/>
+	</resultMap>
+	<resultMap type="com.artwellhk.alertsystem.entity.SampleOrder" id="SampleOrderMap">
+		<id column="styleID" property="id"/>
+		<result column="sNumber" property="styleNumber"/>
+		<result column="xStyleNo" property="styleNo"/>
+		<result column="isReceive" property="isReceive"/>
+		<result column="gongYiSendEmpl" property="gongYiSendEmpl"/>
+		<result column="gongYiSendTime" property="gongYiSendTime"/>
+		<result column="gongYiReceiveTime" property="gongYiReceiveTime"/>
+		
+	</resultMap>
+
+	<select id="getProcess" parameterType="java.util.Map" resultMap="ProcessMap">
+		SELECT
+			*
+		FROM ALERTSYSTEM_PROCESS 
+		WHERE 1=1
+		<if test="ztWorkingId != null and ztWorkingId !=''">
+		AND ZT_WORKING_ID=#{ztWorkingId}
+		</if>
+	</select>
+	
+	<!-- 获取所有未完成并且工艺发出未收回的版单-->
+	<select id="getAllStyleOfGOngYiSend"  resultMap="SampleOrderMap">
+		SELECT
+			ets.sID AS styleID,
+			ets.sNumber,
+			ets.xStyleNo,
+			lsi.xStatus AS isReceive,
+			lsi.xDateTime AS gongYiSendTime,
+			emp.xName AS gongYiSendEmpl,
+			lsr.xDateTime AS gongYiReceiveTime
+		FROM
+			ERPDB.dbo.lt_style_issue lsi
+		LEFT JOIN ERPDB.dbo.et_style ets ON lsi.rStyle_ID = ets.sID
+		LEFT JOIN ERPDB.dbo.zt_empl emp ON lsi.rEmpl_ID = emp.sID
+		LEFT JOIN ERPDB.dbo.lt_style_receive lsr ON lsr.rStyle_ID = ets.sID
+		WHERE
+			ets.xStatus = 2
+			AND ets.xDataType=3
+		ORDER BY
+			ets.sID DESC
+		
+	</select>
+
+	<select id="getGongYiSend" parameterType="int" resultType="Map">
+		SELECT
+			lsi.sID,
+			lsi.xDateTime AS 'fromTimestamp',
+			emp.xName AS 'employeeName'
+		FROM
+			ERPDB.dbo.lt_style_issue lsi
+			LEFT JOIN ERPDB.dbo.zt_empl emp ON lsi.rEmpl_ID = emp.sID
+		WHERE lsi.rStyle_ID=#{styleID}
+	</select>
+	
+	<select id="getHuaHuaSend" parameterType="int" resultType="Map">
+		SELECT
+			lsi2.sID,
+			lsi2.xDateTime AS 'fromTimestamp',
+			emp.xName AS 'employeeName',
+			lsi2.xStatus AS isReceive,
+			lsr2.xDateTime AS 'toTimestamp'
+		FROM
+			ERPDB.dbo.lt_style_issue2 lsi2
+		LEFT JOIN ERPDB.dbo.lt_style_receive2 lsr2 ON lsi2.sID = lsr2.rIssue_ID
+		LEFT JOIN ERPDB.dbo.zt_empl emp ON lsi2.rEmpl_ID = emp.sID
+		WHERE
+			lsi2.rStyle_ID =#{styleID}
+	</select>
+
+	<select id="getHuaHuaReceive" parameterType="int" resultType="Map">
+		SELECT
+			lsr2.sID,
+			lsr2.xDateTime AS 'fromTimestamp',
+			emp.xName AS 'employeeName'
+		FROM
+			ERPDB.dbo.lt_style_receive2 lsr2
+			LEFT JOIN ERPDB.dbo.zt_empl emp ON lsr2.rEmpl_ID = emp.sID
+		WHERE lsr2.rStyle_ID=#{styleID}
+	</select>
+	<!-- 查询电机部及后面工序的发出记录(查询最新一条收回记录) ，if(iss.*为空){表示电机部未发出}else if(issbc.aStatus=1){是未收回}else if(issbc.aStatus=3){已收回，
+		if(收回的工序不是最后工序){返回收回时间}}-->
+	<select id="getIssue60ByStyleID" parameterType="int" resultType="Map">
+		SELECT DISTINCT
+			TOP (1) iss.sID,
+			iss.xDateTime AS 'sendTime',
+			zt.rDept_ID AS 'deptId',
+			sendEmp.xName AS 'sendEmployee',
+			issbc.aStatus,
+			rec.xDateTime AS 'receiveTime',
+			resieveEmp.xName AS 'receiveName'
+		FROM
+			ERPDB.dbo.lt_issue60 iss
+		LEFT JOIN ERPDB.dbo.lt_issue60_bc issbc ON iss.sID = issbc.mID
+		LEFT JOIN ERPDB.dbo.zt_empl sendEmp ON iss.rEmpl_ID = sendEmp.sID
+		LEFT JOIN ERPDB.dbo.lt_receive60 rec ON issbc.aDataID = rec.sID
+		LEFT JOIN ERPDB.dbo.zt_empl resieveEmp ON rec.rEmpl_ID = resieveEmp.sID
+		LEFT JOIN zt_working zt ON zt.sID = iss.rWork_ID
+		WHERE
+			issbc.xBC LIKE CAST (
+				(
+					SELECT
+						card.xCard
+					FROM
+						ERPDB.dbo.pt_card card
+					WHERE
+						card.rStyle_ID = #{styleID}
+				) AS VARCHAR
+			) + '%'
+		ORDER BY iss.sID DESC
+	</select>
+	
+</mapper>

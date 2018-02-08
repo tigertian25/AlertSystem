@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ Copyright (c) 2017 Haulmont Technology Ltd. All Rights Reserved.
+  ~ Haulmont Technology proprietary and confidential.
+  ~ Use is subject to license terms.
+  -->
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="com.artwellhk.alertsystem.web.alerttype.AlertTypeBrowse"
+        focusComponent="table"
+        lookupComponent="table"
+        messagesPack="com.artwellhk.alertsystem.web.alerttype">
+    <dsContext>
+        <datasource id="alertTypeDs"
+                    class="com.artwellhk.alertsystem.entity.AlertType"
+                    view="alertType-view"/>
+        <groupDatasource id="alertTypesDs"
+                         class="com.artwellhk.alertsystem.entity.AlertType"
+                         view="alertType-view">
+            <query>
+                <![CDATA[select e from alertsystem$AlertType e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                description="Esc"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split id="split"
+               height="100%"
+               orientation="horizontal"
+               reversePosition="true"
+               width="100%">
+            <vbox id="lookupBox"
+                  expand="table"
+                  height="100%"
+                  margin="false,true,false,false"
+                  spacing="true">
+                <filter id="filter"
+                        applyTo="table"
+                        datasource="alertTypesDs">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="table"
+                            width="100%">
+                    <actions>
+                        <action id="create"/>
+                        <action id="edit"/>
+                        <action id="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="fromProcess"
+                                caption="开始工序"/>
+                        <column id="fromProcessType"
+                                caption="工序类型"/>
+                        <column id="toProcess"
+                                caption="下一工序"/>
+                        <column id="toProcessType"
+                                caption="下一工序类型"/>
+                        <column id="allowedDuration"
+                                caption="规定时限（分钟）">
+                            <formatter class="com.artwellhk.alertsystem.web.alerttype.MyFormatter"/>
+                        </column>
+                        <column id="singleMaxDuration"
+                                caption="单次输入最大时限"
+                                visible="false"/>
+                        <column id="totalMaxDuration"
+                                caption="最大总时限"
+                                visible="false"/>
+                    </columns>
+                    <rows datasource="alertTypesDs"/>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn"
+                                action="table.create"/>
+                        <button id="editBtn"
+                                action="table.edit"/>
+                        <button id="removeBtn"
+                                action="table.remove"/>
+                    </buttonsPanel>
+                </groupTable>
+            </vbox>
+            <vbox id="editBox"
+                  expand="fieldGroupBox"
+                  height="100%"
+                  margin="false,false,false,true"
+                  spacing="true">
+                <vbox id="fieldGroupBox">
+                    <fieldGroup id="fieldGroup"
+                                datasource="alertTypeDs">
+                        <column width="250px">
+                            <field caption="开始工序"
+                                   property="fromProcess"/>
+                            <field caption="工序类型"
+                                   property="fromProcessType"/>
+                            <field caption="下一工序"
+                                   property="toProcess"/>
+                            <field caption="下一工序类型"
+                                   property="toProcessType"/>
+                            <field caption="规定时限（分钟）"
+                                   property="allowedDuration"/>
+                            <field caption="单次输入最大时限"
+                                   property="singleMaxDuration"
+                                   visible="false"/>
+                            <field caption="最大总时限"
+                                   property="totalMaxDuration"
+                                   visible="false"/>
+                        </column>
+                    </fieldGroup>
+                </vbox>
+                <hbox id="actionsPane"
+                      spacing="true"
+                      visible="false">
+                    <button id="saveBtn"
+                            action="save"/>
+                    <button id="cancelBtn"
+                            action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>

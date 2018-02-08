@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">  
+  <persistence-unit name="ERPDB" transaction-type="RESOURCE_LOCAL"> 
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.haulmont.cuba.core.entity.BaseGenericIdEntity</class>
+    <class>com.haulmont.cuba.core.entity.BaseUuidEntity</class>
+    <class>com.haulmont.cuba.core.entity.BaseLongIdEntity</class>
+    <class>com.haulmont.cuba.core.entity.BaseIntegerIdEntity</class>
+    <class>com.haulmont.cuba.core.entity.BaseStringIdEntity</class>
+    <class>com.haulmont.cuba.core.entity.BaseDbGeneratedIdEntity</class>
+    <class>com.haulmont.cuba.core.entity.BaseIdentityIdEntity</class>
+    <class>com.haulmont.cuba.core.entity.BaseIntIdentityIdEntity</class>
+    <class>com.haulmont.cuba.core.entity.StandardEntity</class>
+    <class>com.haulmont.cuba.core.entity.EmbeddableEntity</class>
+    <exclude-unlisted-classes/>
+    <properties>
+      <property name="eclipselink.cache.coordination.propagate-asynchronously" value="false"/>
+      <property name="eclipselink.session-event-listener" value="com.haulmont.cuba.core.sys.persistence.EclipseLinkSessionEventListener"/>
+      <property name="eclipselink.logging.logger" value="com.haulmont.cuba.core.sys.logging.EclipseLinkLog"/>
+      <property name="cuba.storeName" value="ERPDB"/>
+      <property name="eclipselink.cache.shared.default" value="false"/>
+      <property name="eclipselink.target-database" value="com.haulmont.cuba.core.sys.persistence.CubaSQLServerPlatform"/>
+      <property name="javax.persistence.validation.mode" value="NONE"/>
+      <property name="eclipselink.cache.coordination.protocol" value="com.haulmont.cuba.core.sys.entitycache.EntityCacheTransportManager"/>
+      <property name="eclipselink.weaving" value="static"/>
+    </properties>
+  </persistence-unit> 
+</persistence>

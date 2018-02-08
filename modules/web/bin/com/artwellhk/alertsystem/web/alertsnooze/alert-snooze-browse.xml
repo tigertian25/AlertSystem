@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.artwellhk.alertsystem.web.alertsnooze.AlertSnoozeBrowse"
+        focusComponent="alertSnoozesTable"
+        lookupComponent="alertSnoozesTable"
+        messagesPack="com.artwellhk.alertsystem.web.alertsnooze">
+    <dsContext>
+        <groupDatasource id="alertSnoozesDs"
+                         class="com.artwellhk.alertsystem.entity.AlertSnooze"
+                         view="_local">
+            <query>
+                <![CDATA[select e from alertsystem$AlertSnooze e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="alertSnoozesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="alertSnoozesTable"
+                datasource="alertSnoozesDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="alertSnoozesTable"
+                    width="100%">
+            <actions>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="sampleOrderId" caption="styleId"/>
+                <column id="duration"
+                        caption="睡眠时间（分钟）">
+                    <formatter class="com.artwellhk.alertsystem.web.alerttype.MyFormatter"/>
+                </column>
+            </columns>
+            <rows datasource="alertSnoozesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="removeBtn"
+                        action="alertSnoozesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>
